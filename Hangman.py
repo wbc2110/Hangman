@@ -8,6 +8,9 @@ Description:
 
 #I did not make nearly as much progress tonight as I thought I would. There are a couple places where I am just stuck but I want to try and figure it out before I just ask you to get me out of the hole. I know you wanted to see where I was at the end of the night. Let me know if you see any glaring issues or if there is something obvious that I am missing. I really appreciate you looking at this for me. 
 
+#Testing to see how Git works.
+
+
 import random
 
 def handleUserInputDifficulty():
