@@ -130,7 +130,7 @@ def runGame(filename):
         numberOfRounds = 0
         gamesPlayed = 1
         numberOfGamesWon = 0
-        hangmanWord = list("_" * len(secretWord))
+        hangmanWord = list("_" * (len(secretWord)-1))
         while missesLeft > 0 and gameWon is False:
             displayString = createDisplayString(lettersGuessed, missesLeft, hangmanWord)
             guessedLetter = handleUserInputLetterGuess(lettersGuessed, displayString)
