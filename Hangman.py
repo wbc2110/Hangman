@@ -75,6 +75,9 @@ def handleUserInputLetterGuess(lettersGuessed, displayString):
     while guessedLetter in lettersGuessed:
         print("You already guessed that. Please chose a different letter.")
         guessedLetter = input("letter> ")
+    while len(guessedLetter) != 1:
+        print("Please input only 1 letter")
+        guessedLetter = input("letter> ")
     while ord(guessedLetter) < 97 or ord(guessedLetter) > 122:
         print("Please chose a lowercase letter.")
         guessedLetter = input("letter> ")
@@ -116,7 +119,7 @@ def runGame(filename):
 
     continuePlaying = True
     while continuePlaying is True:
-        length = random.randrange(5, 10, 1)
+        length = random.randint(6, 11)
         file = open(filename, 'r')
         words = file.readlines()
         missesLeft = handleUserInputDifficulty()
@@ -127,8 +130,8 @@ def runGame(filename):
         numberOfRounds = 0
         gamesPlayed = 1
         numberOfGamesWon = 0
-        hangmanWord = list("_" * (len(secretWord)-1))
-        while missesLeft >= 0 and gameWon is False:
+        hangmanWord = list("_" * len(secretWord))
+        while missesLeft > 0 and gameWon is False:
             displayString = createDisplayString(lettersGuessed, missesLeft, hangmanWord)
             guessedLetter = handleUserInputLetterGuess(lettersGuessed, displayString)
             lettersGuessed.append(guessedLetter)
@@ -142,7 +145,7 @@ def runGame(filename):
             print(f"You correctly guessed the word: {secretWord}")
             numberOfGamesWon += 1
         n1 = '\n'
-        if missesLeft < 0:
+        if missesLeft <= 0:
             print(
                 f"You're hung!!{n1}"
                 f"The word is {secretWord}")
