@@ -23,3 +23,6 @@ if __name__ == '__main__':
     expected = ['c', 'a', '_']
     print('Next line should be: ' + str(expected))
     print(Hangman.updateHangmanWord(guessedLetter, secretWord, hangmanWord))
+
+    print(Hangman.runGame('lowerwords.txt'))
+
