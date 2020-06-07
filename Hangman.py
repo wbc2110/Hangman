@@ -118,6 +118,8 @@ def runGame(filename):
     '''
 
     continuePlaying = True
+    gamesPlayed = 1
+    numberOfGamesWon = 0
     while continuePlaying is True:
         length = random.randint(6, 11)
         file = open(filename, 'r')
@@ -128,8 +130,6 @@ def runGame(filename):
         secretWord = getWord(words, length)
         gameWon = False
         numberOfRounds = 0
-        gamesPlayed = 1
-        numberOfGamesWon = 0
         hangmanWord = list("_" * (len(secretWord)-1))
         while missesLeft > 0 and gameWon is False:
             displayString = createDisplayString(lettersGuessed, missesLeft, hangmanWord)
