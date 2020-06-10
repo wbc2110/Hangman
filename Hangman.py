@@ -27,7 +27,6 @@ def handleUserInputDifficulty():
         missesLeft = 8
 
     return missesLeft
-    pass
 
 def getWord(words, length):
     '''
@@ -39,62 +38,47 @@ def getWord(words, length):
     for i in words:
         if len(i) == length:
             wordsOfCorrectLength.append(i)
-    secretWord = random.choice(wordsOfCorrectLength)
-    return secretWord
-    pass
+    return random.choice(wordsOfCorrectLength)
 
 def createDisplayString(lettersGuessed, missesLeft, hangmanWord):
     '''
     Creates the string that will be displayed to the user, using the information in the parameters.
     '''
-    if lettersGuessed == []:
-        hangmanWord
-    x = ''.join(sorted(lettersGuessed))
-    x = x.replace("", " ")[1:-1]
-    y = ""
-    y = y.join(hangmanWord)
-    y = y.replace("", " ")[1:-1]
-    n1 = '\n'
-    displayString = (
-        f"letters you've guessed: {x}{n1}"
-        f"misses remaining = {missesLeft}{n1}"
+    x = ' '.join(sorted(lettersGuessed))
+    y = ' '.join(hangmanWord)
+    return (
+        f"letters you've guessed: {x}\n"
+        f"misses remaining = {missesLeft}\n"
         f"{y}"
     )
-    return displayString
-    pass
 
 def handleUserInputLetterGuess(lettersGuessed, displayString):
     '''
     Prints displayString, then asks the user to input a letter to guess.
     This function handles the user input of the new letter guessed and checks if it is a repeated letter.
     '''
-    #I still need to figure out how to layout the hangmanWord and incorporate the correct letters that have already been guessed.  
-    
     print(displayString)
     guessedLetter = input("letter> ")
+    guessedLetter = guessedLetter.lower()
     while guessedLetter in lettersGuessed:
         print("You already guessed that. Please chose a different letter.")
         guessedLetter = input("letter> ")
     while len(guessedLetter) != 1:
         print("Please input only 1 letter")
         guessedLetter = input("letter> ")
-    while ord(guessedLetter) < 97 or ord(guessedLetter) > 122:
-        print("Please chose a lowercase letter.")
+    while not guessedLetter.isalpha():
+        print("Please chose a letter.")
         guessedLetter = input("letter> ")
     return guessedLetter
-    pass
 
 def updateHangmanWord(guessedLetter, secretWord, hangmanWord = ""):
     '''
     Updates hangmanWord according to whether guessedLetter is in secretWord and where in secretWord guessedLetter is in.
     '''
-    count = 0
     for i in range(len(secretWord)):
         if guessedLetter is secretWord[i]:
-            hangmanWord[count] = guessedLetter
-        count += 1
+            hangmanWord[i] = guessedLetter
     return hangmanWord
-    pass
 
 def processUserGuess(guessedLetter, secretWord, hangmanWord, missesLeft):
     '''
@@ -107,9 +91,6 @@ def processUserGuess(guessedLetter, secretWord, hangmanWord, missesLeft):
     else:
         missesLeft -= 1
     return [updateHangmanWord(guessedLetter, secretWord, hangmanWord), missesLeft, isInSecretWord]
-    pass 
-
-#This function seems similar to the createDisplayString function except this would be run between turns in one game. I have not really given this function much thought yet. 
 
 def runGame(filename):
     '''
@@ -120,7 +101,7 @@ def runGame(filename):
     continuePlaying = True
     gamesPlayed = 1
     numberOfGamesWon = 0
-    while continuePlaying is True:
+    while continuePlaying:
         length = random.randint(6, 11)
         file = open(filename, 'r')
         words = file.readlines()
@@ -131,7 +112,7 @@ def runGame(filename):
         gameWon = False
         numberOfRounds = 0
         hangmanWord = list("_" * (len(secretWord)-1))
-        while missesLeft > 0 and gameWon is False:
+        while missesLeft > 0 and not gameWon:
             displayString = createDisplayString(lettersGuessed, missesLeft, hangmanWord)
             guessedLetter = handleUserInputLetterGuess(lettersGuessed, displayString)
             lettersGuessed.append(guessedLetter)
@@ -141,13 +122,12 @@ def runGame(filename):
             if '_' not in hangmanWord:
                 gameWon = True
             numberOfRounds += 1
-        if gameWon is True:
+        if gameWon:
             print(f"You correctly guessed the word: {secretWord}")
             numberOfGamesWon += 1
-        n1 = '\n'
-        if missesLeft <= 0:
+        elif missesLeft <= 0:
             print(
-                f"You're hung!!{n1}"
+                f"You're hung!!\n"
                 f"The word is {secretWord}")
         print(f"You made {numberOfRounds} guesses with {beginningMisses - missesLeft} misses.")
         x = input("Do you want to play again? y or n> ")
@@ -159,7 +139,6 @@ def runGame(filename):
             gamesPlayed += 1
 
     print(f"You won {numberOfGamesWon} game(s) and lost {gamesPlayed - numberOfGamesWon}.")
-    pass
 
 if __name__ == "__main__":
     '''
